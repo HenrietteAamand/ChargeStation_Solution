@@ -4,7 +4,9 @@ using System.Text;
 
 namespace ChargeStation.Classlibrary
 {
-    public class IRdfReader
+    public interface IRdfReader
     {
+        public event EventHandler<RFIDDetectedEventArgs> RFIDDectected;
+        public void RFIDReader(int id);
     }
 }
