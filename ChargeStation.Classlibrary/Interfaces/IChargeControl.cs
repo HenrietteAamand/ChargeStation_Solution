@@ -4,7 +4,14 @@ using System.Text;
 
 namespace ChargeStation.Classlibrary
 {
-    public class IChargeControl
+    public interface IChargeControl
     {
+
+        public bool IsConnected();
+        public void StartCharge();
+        public void StopCharge();
+
+
+
     }
 }

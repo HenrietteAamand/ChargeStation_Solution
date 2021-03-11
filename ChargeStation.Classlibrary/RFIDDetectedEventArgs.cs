@@ -4,8 +4,8 @@ using System.Text;
 
 namespace ChargeStation.Classlibrary
 {
-    public class Display : IDisplay
+    public class RFIDDetectedEventArgs : EventArgs
     {
-
+        public bool RFIDDetected { get; set; }
     }
 }
