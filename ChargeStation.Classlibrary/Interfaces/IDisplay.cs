@@ -4,7 +4,8 @@ using System.Text;
 
 namespace ChargeStation.Classlibrary
 {
-    public class IDisplay
+    public interface IDisplay
     {
+        public void ChangeText(string indlæsRfid);
     }
 }

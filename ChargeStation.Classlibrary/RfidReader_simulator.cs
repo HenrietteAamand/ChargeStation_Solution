@@ -6,7 +6,6 @@ namespace ChargeStation.Classlibrary
 {
     public class RfidReader_simulator : IRdfReader
     {
-        private StationControl StationControl = new StationControl();
         private bool ReadRFID;
 
         public event EventHandler<RFIDDetectedEventArgs> RFIDDectected;

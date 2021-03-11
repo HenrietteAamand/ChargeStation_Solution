@@ -4,7 +4,9 @@ using System.Text;
 
 namespace ChargeStation.Classlibrary
 {
-    public class ILogfile
+    public interface ILogfile
     {
+        public void DoorUnlocked(string eId);
+        void DoorLocked(string rfidId);
     }
 }
