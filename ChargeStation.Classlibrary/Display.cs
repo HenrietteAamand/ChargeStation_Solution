@@ -6,5 +6,6 @@ namespace ChargeStation.Classlibrary
 {
     public class Display : IDisplay
     {
+
     }
 }
