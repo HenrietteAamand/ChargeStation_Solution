@@ -17,9 +17,7 @@ namespace ChargeStation.Test.Unit
         public void LuckDoor_Zero_StartesUnLuckedAndClosed_Exppect_False()
         {
             //Arrange 
-
-            //Start lukket og ulåst
-            var uut = new Door_Simulator();
+            //UUT Starter lukket og ulåst
 
             //Act
             //Der er ikke nogen act da det er en zero test
@@ -34,24 +32,24 @@ namespace ChargeStation.Test.Unit
         {
             //Arrange 
 
-            //Start lukket og ulåst
-            var uut = new Door_Simulator();
+            //UUT Starter lukket og ulåst
+            // var uut = new Door_Simulator();
 
             //Act
             uut.LockDoor();
 
             //Assert
             Assert.That(uut.DoorIsLocked, Is.True);
+
         }
 
 
         [Test]
         public void LuckDoor_StartesUnLuckedAndClosed_Exppect_True()
         {
+            //UUT Starter lukket og ulåst
             //Arrange 
 
-            //Start lukket og ulåst
-            var uut = new Door_Simulator();
 
             //Act
             uut.LockDoor();
@@ -70,12 +68,11 @@ namespace ChargeStation.Test.Unit
         {
             //Arrange 
 
-            //Start lukket og ulåst
-            var uut = new Door_Simulator();
+            //UUT Starter lukket og ulåst
             uut.LockDoor();
 
             //Act
-            
+
             //Assert
             Assert.That(uut.DoorIsLocked, Is.True);
         }
@@ -83,11 +80,10 @@ namespace ChargeStation.Test.Unit
         [Test]
         public void UnLuckDoor_One_StartesLuckedAndClosed_Exppect_False()
         {
+            //UUT Starter lukket og ulåst
             //Arrange 
-
-            //Start lukket og ulåst
-            var uut = new Door_Simulator();
             uut.LockDoor();
+
 
             //Act
             uut.UnlockDoor();
@@ -99,11 +95,10 @@ namespace ChargeStation.Test.Unit
         [Test]
         public void UnLuckDoor_Two_StartesLuckedAndClosed_Exppect_False()
         {
+            //UUT Starter lukket og ulåst
             //Arrange 
-
-            //Start lukket og ulåst
-            var uut = new Door_Simulator();
             uut.LockDoor();
+
 
             //Act
             uut.UnlockDoor();
@@ -120,58 +115,65 @@ namespace ChargeStation.Test.Unit
         [Test]
         public void SimulateOpeningTry_Zero_StartesUnLuckedAndClosed()
         {
+            //UUT Starter  lukket og ulåst
             //Arrange
 
-            //Døre starter lukket og ulåst
-            var uut = new Door_Simulator();
 
             //Act
             //No Act da det er en Zero Test
 
             //Assert
-            Assert.That(uut.DoorIsOpen, Is.False);
+            Assert.Multiple(() =>
+            {
+                Assert.That(uut.DoorIsOpen, Is.False);
+                Assert.That(_receivedEventArgs, Is.Not.Null);
+
+            });
         }
 
         [Test]
         public void SimulateOpeningTry_One_StartesUnLuckedAndClosed()
         {
+            //UUT Starter lukket og ulåst
             //Arrange
-
-            //Start lukket og ulåst
-            var uut = new Door_Simulator();
 
 
             //Act
             uut.SimulateOpeningTry();
 
             //Assert
-            Assert.That(uut.DoorIsOpen, Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(uut.DoorIsOpen, Is.True);
+                Assert.That(_receivedEventArgs.IsOpen, Is.True);
+
+            });
         }
 
         [Test]
         public void SimulateOpeningTry_Two_StartesUnLuckedAndClosed()
         {
+            //UUT Starter lukket og ulåst
             //Arrange
-
-            //Start lukket og ulåst
-            var uut = new Door_Simulator();
-
 
             //Act
             uut.SimulateOpeningTry();
             uut.SimulateOpeningTry();
 
             //Assert
-            Assert.That(uut.DoorIsOpen, Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(uut.DoorIsOpen, Is.True);
+                Assert.That(_receivedEventArgs.IsOpen, Is.True);
+
+            });
         }
 
         [Test]
         public void SimulateOpeningTry_ExceptionalBehavior_StartesLuckedAndClosed()
         {
+            //UUT Starter lukket og låst
             //Arrange
-
-            //Start lukket og låst
-            var uut = new Door_Simulator();
             uut.LockDoor();
 
             Assert.Throws<ArgumentException>(() => uut.SimulateOpeningTry());
@@ -179,8 +181,9 @@ namespace ChargeStation.Test.Unit
         }
         #endregion
 
+
         private DoorStatusEventArgs _receivedEventArgs;
-        private IDoor uut;
+        private Door_Simulator uut;
         [SetUp]
         public void Setup()
         {
