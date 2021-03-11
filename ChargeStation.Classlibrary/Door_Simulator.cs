@@ -15,6 +15,8 @@ namespace ChargeStation.Classlibrary
         #region Event
 
         public event EventHandler<DoorStatusEventArgs> DoorStatusChangedEvent;
+
+        //TODO Jeg ved ikke hvordan OnDoorStatusChanged skal testes...
         private void OnDoorStatusChanged(DoorStatusEventArgs eventArgs)
         {
             DoorStatusChangedEvent?.Invoke(this, eventArgs);
