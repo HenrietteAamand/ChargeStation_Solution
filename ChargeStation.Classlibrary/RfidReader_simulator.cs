@@ -4,29 +4,68 @@ using System.Text;
 
 namespace ChargeStation.Classlibrary
 {
+    public class RFIDDetectedEventArgs : EventArgs
+    {
+        public bool RFIDDetected { get; set; }
+        public string Id { get; set; }
+    }
+
     public class RfidReader_simulator : IRdfReader
     {
-        private bool ReadRFID;
+        private bool ReaderIsActive;
+        private readonly StationControl StationControl;
 
         public event EventHandler<RFIDDetectedEventArgs> RFIDDectected;
 
         public RfidReader_simulator()
         {
-            ReadRFID = false;
+            ReaderIsActive = false;
         }
 
-        public void simmulateRFIDReader(bool readRFID)
+        private void RFIDReaderIsActivated(RFIDDetectedEventArgs eventArgs)
         {
-            //Event ind her
-            ReadRFID = readRFID;
+            RFIDDectected?.Invoke(this, eventArgs);
         }
 
-        public void RFIDReader(int id)
+        private void simmulateRFIDReaderActive(string readRFID)
         {
-            if (ReadRFID == true)
+            if (ReaderIsActive == false)
             {
-                //StationControl.RfidDetected(id);
+                ReaderIsActive = true;
+                RFIDReaderStatusChange(true);
+                RFIDReader(readRFID);
             }
+            
+        }
+
+        public void simmulateRFIDReaderInactive()
+        {
+            if (ReaderIsActive == true)
+            {
+                ReaderIsActive = false;
+                RFIDReaderStatusChange(false);
+            }
+            
+        }
+
+        private void RFIDReaderStatusChange(bool newStatus)
+        {
+            if (ReaderIsActive != newStatus)
+            {
+                ReaderIsActive = newStatus;
+
+                RFIDReaderIsActivated(new RFIDDetectedEventArgs
+                {
+                    RFIDDetected = newStatus
+
+                }) ;
+            }
+
+        }
+
+        public void RFIDReader(string id)
+        {
+            StationControl.CheckId(id);
         }
 
 
