@@ -75,7 +75,7 @@ namespace ChargeStation.Classlibrary
                         _display.ChangeText("Fjern telefon");  // Udskriv "Fjern telefon" på display
                         rfidID = "";
                         doorIsLocked = false;
-                        _logfile.DoorUnlocked(rfidReader.Id);                    // Gem i lockfilen, at døren er blevet låst op
+                        _logfile.DoorUnlocked(rfidReader.Id);           // Gem i lockfilen, at døren er blevet låst op
 
                         break;
 
