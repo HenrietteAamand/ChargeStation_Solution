@@ -14,7 +14,7 @@ namespace ChargeStation.Classlibrary
 
         public event EventHandler<CurrentEventArgs> CurrentValueEvent;
 
-        public double CurrentValue { get; private set; }
+        public double CurrentValue { get; set; }
 
         public event EventHandler<CurrentEventArgs> ValueEvent;
         public double CorrentValue { get; }

@@ -24,7 +24,7 @@ namespace ChargeStation.Classlibrary
             _door.DoorStatusChangedEvent += HandleDoorEvent;
             _chargeControl = chargeControl;
             _rfdReader = rfdReader;
-            _rfdReader.RFIDDectected += HandleRfidEvent;
+            _rfdReader.RFIDDectectedEvent += HandleRfidEvent;
             _display = display;
             _logfile = logfile;
             doorIsLocked = false;
