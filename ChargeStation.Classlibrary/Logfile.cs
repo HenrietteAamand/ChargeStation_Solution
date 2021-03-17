@@ -7,12 +7,16 @@ namespace ChargeStation.Classlibrary
 {
     public class Logfile : ILogfile
     {
+        private readonly IFileWriter _fileWriter;
+        private readonly ITimeProvider _timeprovider;
         private string filename = "Logfile";
         private FileStream streamer;
         private StreamWriter writer;
 
-        public Logfile()
+        public Logfile(IFileWriter fileWriter, ITimeProvider timeprovider)
         {
+            _fileWriter = fileWriter;
+            _timeprovider = timeprovider;
             if (!File.Exists(filename))
             {
                 streamer = new FileStream("Log", FileMode.Create, FileAccess.Write);

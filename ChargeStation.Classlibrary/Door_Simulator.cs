@@ -83,7 +83,6 @@ namespace ChargeStation.Classlibrary
 
                 });
             }
-
         }
 
         public void SimulateOpeningTry()

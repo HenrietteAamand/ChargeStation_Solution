@@ -7,6 +7,6 @@ namespace ChargeStation.Classlibrary
     public interface ILogfile
     {
         public void DoorUnlocked(string eId);
-        void DoorLocked(string rfidId);
+        public void DoorLocked(string rfidId);
     }
 }
