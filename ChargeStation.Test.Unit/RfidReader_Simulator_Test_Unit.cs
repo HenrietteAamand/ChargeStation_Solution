@@ -25,12 +25,11 @@ namespace ChargeStation.Test.Unit
                 };
         }
 
-        [Test]
-        public void RfidDetected_AddRfid_ExpextRfid()
+        [TestCase("RfidTest")]
+        public void RfidDetected_AddRfid_ExpextRfid(string Rfid)
         {
-            string Rfid = "Rfid0000";
             uut.RfidDetected(Rfid);
-            Assert.That(receivedEventArgs, Is.EqualTo(Rfid));
+            Assert.That(receivedEventArgs.Id, Is.EqualTo(Rfid));
         }
     }
 }
