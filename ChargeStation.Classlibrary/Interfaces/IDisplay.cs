@@ -6,6 +6,6 @@ namespace ChargeStation.Classlibrary
 {
     public interface IDisplay
     {
-        public void ChangeText(string indlæsRfid);
+        public void ChangeText(MessageCode text);
     }
 }

@@ -11,5 +11,33 @@ namespace ChargeStation.Classlibrary
         {
             Console.WriteLine(indlæsRfid);
         }
+
+        public void ChangeText(MessageCode text)
+        {
+            switch (text)
+            {
+                case MessageCode.FjernTelefon:
+                    Console.WriteLine("Fjern telefon");
+                    break;
+                case MessageCode.IndlaesRFID:
+                    Console.WriteLine("Indlæs RFID");
+                    break;
+                case MessageCode.LadeskabOptaget:
+                    Console.WriteLine("Ladeskab optaget");
+                    break;
+                case MessageCode.RFIDFejl:
+                    Console.WriteLine("RFID fejl");
+                    break;
+                case MessageCode.TilslutTelefon:
+                    Console.WriteLine("Tilslut telefon");
+                    break;
+                case MessageCode.Tilslutningsfejl:
+                    Console.WriteLine("Tilslutningsfejl");
+                    break;
+                default:
+                    Console.WriteLine("Unknown Error");
+                    break;
+            }
+        }
     }
 }

@@ -7,21 +7,21 @@ namespace ChargeStation.Classlibrary
     // Henriette
     public class StationControl
     {
-        public readonly IDoor _door;
-        public readonly IChargeControl _chargeControl;
+        private readonly IDoor _door;
+        private readonly IChargeControl _chargeControl;
         private readonly IRdfReader _rfdReader;
         private readonly IDisplay _display;
         private readonly ILogfile _logfile;
         private string rfidID;
         private bool doorIsLocked;
 
+        
 
         //Dette er controllerklassen. 
         public StationControl(IDoor door, IChargeControl chargeControl, IRdfReader rfdReader, IDisplay display, ILogfile logfile)
         {
             _door = door;
             _door.DoorStatusChangedEvent += HandleDoorEvent;
-
             _chargeControl = chargeControl;
             _rfdReader = rfdReader;
             _rfdReader.RFIDDectected += HandleRfidEvent;
@@ -30,16 +30,15 @@ namespace ChargeStation.Classlibrary
             doorIsLocked = false;
         }
 
-
         private void HandleDoorEvent(object sender, DoorStatusEventArgs doorStatus)
         {
             switch (doorStatus.IsOpen)
             {
                 case true:
-                    _display.ChangeText("Tilsut telefon");
+                    _display.ChangeText(MessageCode.TilslutTelefon);
                     break;
                 default:
-                    _display.ChangeText("Indlæs RFID");
+                    _display.ChangeText(MessageCode.IndlaesRFID);
                     break;
 
             }
@@ -51,17 +50,18 @@ namespace ChargeStation.Classlibrary
             {
                 switch (_chargeControl.IsConnected())
                 {
+                    //under test: Assert.Multible og test alt dens funktionalitet
                     case true:
                         rfidID = rfidReader.Id;
                         _chargeControl.StartCharge();
                         _door.LockDoor();
                         doorIsLocked = true;
                         _logfile.DoorLocked(rfidID);
-                        _display.ChangeText("Ladeskab optaget");
+                        _display.ChangeText(MessageCode.LadeskabOptaget);
                         break;
 
                     case false:
-                        _display.ChangeText("Tilstlutningsfejl");
+                        _display.ChangeText(MessageCode.Tilslutningsfejl);
                         break;
                 }
             }
@@ -72,7 +72,7 @@ namespace ChargeStation.Classlibrary
                     case true: //Hvis det detekterede rfid ID er det samme som før
                         _chargeControl.StopCharge();                    // Stop opladningen
                         _door.UnlockDoor();                             // Lås døren op
-                        _display.ChangeText("Fjern telefon");  // Udskriv "Fjern telefon" på display
+                        _display.ChangeText(MessageCode.FjernTelefon);  // Udskriv "Fjern telefon" på display
                         rfidID = "";
                         doorIsLocked = false;
                         _logfile.DoorUnlocked(rfidReader.Id);           // Gem i lockfilen, at døren er blevet låst op
@@ -80,7 +80,7 @@ namespace ChargeStation.Classlibrary
                         break;
 
                     case false: // Hvis det detekterede rfid ID er forskelligt fra før
-                        _display.ChangeText("RFID fejl");
+                        _display.ChangeText(MessageCode.RFIDFejl);
                         break;
                 }
             }
