@@ -28,21 +28,20 @@ namespace ChargeStation.Classlibrary
             return iUsbCharger.Connected;
         }
 
-       
 
-            public void StartCharge()
-            {
+        public void StartCharge()
+        {
+            iUsbCharger.StartCharge();
 
-                iUsbCharger.StartCharge();
-            }
+        }
 
-            public void StopCharge()
-            {
+        public void StopCharge()
+        {
 
-                iUsbCharger.StopCharge();
+            iUsbCharger.StopCharge();
 
-            }
-        
+        }
+
 
     }
 }

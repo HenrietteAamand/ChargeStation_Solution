@@ -16,7 +16,6 @@ namespace ChargeStation.Classlibrary
 
         public double CurrentValue { get; set; }
 
-        public event EventHandler<CurrentEventArgs> ValueEvent;
         public double CorrentValue { get; }
         public bool Connected { get; private set; }
 
