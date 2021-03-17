@@ -10,6 +10,7 @@ namespace ChargeStation.Classlibrary
         private IUSBCharger iUsbCharger;
 
         public double CurrentCurrent { get; set; }
+
         public ChargeControl(IUSBCharger iUsbCharger)
         {
             this.iUsbCharger = iUsbCharger;
@@ -25,29 +26,24 @@ namespace ChargeStation.Classlibrary
         public bool IsConnected()
         {
             return iUsbCharger.Connected;
-
-        public bool IsConnected()
-        {
-            throw new NotImplementedException();
-
         }
 
-        public void StartCharge()
-        {
-<<<<<<< HEAD
-            iUsbCharger.StartCharge();
-=======
-            throw new NotImplementedException();
->>>>>>> 92b605c1e89c8665f4d543f0ea6716faf588f2a3
-        }
+       
 
-        public void StopCharge()
-        {
-<<<<<<< HEAD
-            iUsbCharger.StopCharge();
-=======
-            throw new NotImplementedException();
->>>>>>> 92b605c1e89c8665f4d543f0ea6716faf588f2a3
-        }
+            public void StartCharge()
+            {
+
+                iUsbCharger.StartCharge();
+            }
+
+            public void StopCharge()
+            {
+
+                iUsbCharger.StopCharge();
+
+            }
+        
+
     }
 }
+

@@ -3,10 +3,11 @@ using NUnit.Framework;
 
 namespace ChargeStation.Test.Unit
 {
-    public class UnitTest_ChargeControl
+    public class ChargeControl_Test_Unit
     {
         private IChargeControl uut;
-        private readonly TestUSBCharcgerSource testUsbCharger;
+        //private readonly TestUSBCharcgerSource testUsbCharger;
+
 
         [SetUp]
         public void Setup()
