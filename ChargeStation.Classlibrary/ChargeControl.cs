@@ -6,7 +6,7 @@ namespace ChargeStation.Classlibrary
 {
     public class ChargeControl : IChargeControl
     {
-<<<<<<< HEAD
+
         private IUSBCharger iUsbCharger;
 
         public double CurrentCurrent { get; set; }
@@ -25,11 +25,11 @@ namespace ChargeStation.Classlibrary
         public bool IsConnected()
         {
             return iUsbCharger.Connected;
-=======
+
         public bool IsConnected()
         {
             throw new NotImplementedException();
->>>>>>> 92b605c1e89c8665f4d543f0ea6716faf588f2a3
+
         }
 
         public void StartCharge()
