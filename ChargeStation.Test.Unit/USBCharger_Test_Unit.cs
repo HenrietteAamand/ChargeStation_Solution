@@ -66,14 +66,14 @@ namespace ChargeStation.Test.Unit
 
         #endregion
         #region OverLoadCurrent
-        [Test]
-        public void StartCharge_OverLoadCurrentIstrue_EventFired()
-        {
+        //[Test]
+        //public void StartCharge_OverLoadCurrentIstrue_EventFired()
+        //{
            
 
-            Assert.That(receivedEventArgs, Is.Not.Null);
+        //    Assert.That(receivedEventArgs, Is.Not.Null);
 
-        }
+        //}
 
         //[Test]
         //public void StartCharge_CurrentSetToNewValue_CorrectNewCurrentReceived()
