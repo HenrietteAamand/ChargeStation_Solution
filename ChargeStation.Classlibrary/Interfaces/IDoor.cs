@@ -4,7 +4,10 @@ using System.Text;
 
 namespace ChargeStation.Classlibrary
 {
-    public class IDoor
+    public interface IDoor
     {
+        public event EventHandler<DoorStatusEventArgs> DoorStatusChangedEvent;
+        public void LockDoor();
+        public void UnlockDoor();
     }
 }

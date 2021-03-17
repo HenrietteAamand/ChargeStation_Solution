@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ChargeStation.Classlibrary
+namespace ChargeStation.Test.Unit
 {
-    public class Display : IDisplay
+    class StationControl_Test_Unit
     {
-
     }
 }

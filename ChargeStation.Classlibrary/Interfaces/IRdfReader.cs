@@ -6,7 +6,7 @@ namespace ChargeStation.Classlibrary
 {
     public interface IRdfReader
     {
-        public event EventHandler<RFIDDetectedEventArgs> RFIDDectected;
-        public void RFIDReader(int id);
+        public event EventHandler<RFIDDetectedEventArgs> RFIDDectectedEvent;
+        public void RfidDetected(string id);
     }
 }

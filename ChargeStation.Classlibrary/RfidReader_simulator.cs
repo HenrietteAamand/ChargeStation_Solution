@@ -4,33 +4,28 @@ using System.Text;
 
 namespace ChargeStation.Classlibrary
 {
+    public class RFIDDetectedEventArgs : EventArgs
+    {
+        public string Id { get; set; }
+    }
+
     public class RfidReader_simulator : IRdfReader
     {
-        private StationControl StationControl = new StationControl();
-        private bool ReadRFID;
+        public event EventHandler<RFIDDetectedEventArgs> RFIDDectectedEvent;
 
-        public event EventHandler<RFIDDetectedEventArgs> RFIDDectected;
-
-        public RfidReader_simulator()
+        private void RFIDReaderIsActivated(RFIDDetectedEventArgs eventArgs)
         {
-            ReadRFID = false;
+            RFIDDectectedEvent?.Invoke(this, eventArgs);
         }
 
-        public void simmulateRFIDReader(bool readRFID)
-        {
-            //Event ind her
-            ReadRFID = readRFID;
-        }
 
-        public void RFIDReader(int id)
+        public void RfidDetected(string id)
         {
-            if (ReadRFID == true)
+            RFIDReaderIsActivated(new RFIDDetectedEventArgs
             {
-                //StationControl.RfidDetected(id);
-            }
+                Id = id
+
+            }); ;
         }
-
-
-
     }
 }
