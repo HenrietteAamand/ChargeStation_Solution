@@ -75,13 +75,13 @@ namespace ChargeStation.Test.Unit
 
         }
 
-        [Test]
-        public void StartCharge_CurrentSetToNewValue_CorrectNewCurrentReceived()
-        {
-            uut.StartCharge();
-            Assert.That(receivedEventArgs.Current, Is.EqualTo(500));
+        //[Test]
+        //public void StartCharge_CurrentSetToNewValue_CorrectNewCurrentReceived()
+        //{
+        //    uut.StartCharge();
+        //    Assert.That(receivedEventArgs.Current, Is.EqualTo(500));
 
-        }
+        //}
 
 
         #endregion
