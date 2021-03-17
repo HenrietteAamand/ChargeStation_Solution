@@ -1,6 +1,6 @@
 ﻿namespace ChargeStation.Classlibrary
 {
-    internal interface IFileWriter
+    public interface IFileWriter
     {
         public void WriteLineToFile(string line);
     }

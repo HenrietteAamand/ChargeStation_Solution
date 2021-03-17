@@ -1,6 +1,6 @@
 ﻿namespace ChargeStation.Classlibrary
 {
-    internal interface ITimeProvider
+    public interface ITimeProvider
     {
         public string GetTime();
     }
