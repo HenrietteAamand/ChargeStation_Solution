@@ -8,10 +8,10 @@ namespace ChargeStation.Classlibrary
     public interface IUSBCharger
     {
         // Event triggered on new current value
-        event EventHandler<CurrentEventArgs> ValueEvent;
+        event EventHandler<CurrentEventArgs> CurrentValueEvent;
 
         // Direct access to the current current value
-        public double CorrentValue { get; }
+        public double CurrentValue { get; }
 
         // Require connection status of the phone
         public bool Connected { get; }
