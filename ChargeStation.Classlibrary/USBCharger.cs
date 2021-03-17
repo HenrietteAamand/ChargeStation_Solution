@@ -37,6 +37,7 @@ namespace ChargeStation.Classlibrary
             _timer.Interval = CurrentTickInterval;
            
 
+
         }
         public void StartCharge()
         {
@@ -71,6 +72,7 @@ namespace ChargeStation.Classlibrary
 
             _charging = false;
         }
+
 
         private void OnNewCurrent()
         {
