@@ -2,5 +2,6 @@
 {
     internal interface IFileWriter
     {
+        public void WriteLineToFile(string line);
     }
 }

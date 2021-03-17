@@ -2,5 +2,6 @@
 {
     internal interface ITimeProvider
     {
+        public string GetTime();
     }
 }
