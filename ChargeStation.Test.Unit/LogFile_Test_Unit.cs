@@ -30,8 +30,8 @@ namespace ChargeStation.Test.Unit
         public void DoorLocked_SetTimeAndID_checkFileWriterLine()
         {
             faketimeProvider.GetTime().Returns("1234");
-            uut.DoorUnlocked("RFID_ID");
-            fakeFilewriter.Received(1).WriteLineToFile("Door was unlocked at 1234 with Rfid id RFID_ID");
+            uut.DoorLocked("RFID_ID");
+            fakeFilewriter.Received(1).WriteLineToFile("Door was locked at 1234 with Rfid id RFID_ID");
         }
     }
 }
