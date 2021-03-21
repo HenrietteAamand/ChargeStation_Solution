@@ -13,6 +13,7 @@ namespace ChargeStation.Test.Unit
         private IChargeControl chargeControl;
         private IRdfReader rfdReader;
         private IDisplay display;
+
         [SetUp]
         public void Setup()
         {

@@ -8,6 +8,7 @@ namespace ChargeStation.Classlibrary
     {
 
         private IUSBCharger iUsbCharger;
+       
 
         public double CurrentCurrent { get; set; }
 
@@ -20,8 +21,21 @@ namespace ChargeStation.Classlibrary
         private void HandleCurrentChangeEvent(object sender, CurrentEventArgs e)
         {
             CurrentCurrent = e.Current;
-            //REGULATE
+            // Handle current data
+            //HandleCurretDataEvent();
         }
+
+        //private void HandleCurretDataEvent()
+        //{
+        //    if (true)
+        //    {
+        //        //TODO do stuff
+        //    }
+        //    else
+        //    {
+        //        //TODO do Other cool stuff
+        //    }
+        //}
 
         public bool IsConnected()
         {

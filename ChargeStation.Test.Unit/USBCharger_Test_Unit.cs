@@ -1,4 +1,5 @@
 using ChargeStation.Classlibrary;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace ChargeStation.Test.Unit
@@ -30,9 +31,10 @@ namespace ChargeStation.Test.Unit
         [Test]
         public void StartCharge_CurrentSetToNewValue_EventFired()
         {
+            
             uut.StartCharge();
             Assert.That(receivedEventArgs, Is.Not.Null);
-
+            
         }
 
         [Test]
@@ -43,6 +45,48 @@ namespace ChargeStation.Test.Unit
 
         }
 
+        [Test]
+        public void StartCharge_CurrentSetToOverload_CorrectNewCurrentReceived()
+        {
+            #region SetUp
+
+            uut = new USBCharger(true, true);
+            uut.CurrentValueEvent +=
+                (o, args) =>
+                {
+                    receivedEventArgs = args;
+
+                };
+
+            #endregion
+
+
+            uut.StartCharge();
+            Assert.That(receivedEventArgs.Current, Is.EqualTo(750));
+            
+        }
+        [Test]
+        public void StartCharge_CurrentSetToOverloadIsNotConnected_CorrectNewCurrentReceived()
+        {
+            #region SetUp
+
+            uut = new USBCharger(false,false);
+            uut.CurrentValueEvent +=
+                (o, args) =>
+                {
+                    receivedEventArgs = args;
+
+                };
+            
+
+                #endregion
+            uut.StartCharge();
+
+            Assert.That(receivedEventArgs.Current, Is.EqualTo(0.0));
+            
+        }
+
+
 
         #endregion
         #region StopCharger
@@ -52,7 +96,7 @@ namespace ChargeStation.Test.Unit
         {
             uut.StopCharge();
             Assert.That(receivedEventArgs, Is.Not.Null);
-
+            
         }
 
         [Test]
@@ -60,12 +104,14 @@ namespace ChargeStation.Test.Unit
         {
             uut.StopCharge();
             Assert.That(receivedEventArgs.Current, Is.EqualTo(0.0));
-
+           
         }
+        
+
 
 
         #endregion
-     
+
 
     }
 }
