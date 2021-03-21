@@ -16,7 +16,7 @@ namespace ChargeStation.Classlibrary
 
         public double CurrentValue { get; set; }
 
-        public double CorrentValue { get; }
+     
         public bool Connected { get; private set; }
 
         private bool _overload;
