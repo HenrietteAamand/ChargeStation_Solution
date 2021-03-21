@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.ComponentModel;
+using NUnit.Framework;
 using NSubstitute;
 using ChargeStation.Classlibrary;
 using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
@@ -31,17 +32,70 @@ namespace ChargeStation.Test.Unit
         // Dette er en mock test. Tester på Display
         [TestCase(true, MessageCode.TilslutTelefon)]
         [TestCase(false, MessageCode.IndlaesRFID)]
-        public void HandleDoorEvent(bool stateOfDoor, MessageCode code)
+        public void HandleDoorEvent_changeDoorStatus_mockenumIsCorrect(bool stateOfDoor, MessageCode code)
         {
             door.DoorStatusChangedEvent += Raise.EventWith(new DoorStatusEventArgs {IsOpen = stateOfDoor});
             display.Received(1).ChangeText(code);
         }
 
+        [Test]
+        public void HandleRfidEvent_raisRfidEventWhenDoorIsNOTLockedAndCargerIsConnected_testOnMultipleMocs()
+        {
+            //Arrange
+            chargeControl.IsConnected().Returns(false);
+
+            // Act
+            rfdReader.RFIDDectectedEvent += Raise.EventWith(new RFIDDetectedEventArgs() { Id = "testID"});
+            display.Received(1).ChangeText(MessageCode.Tilslutningsfejl);
+        }
 
         [Test]
-        public void Test1()
+        public void HandleRfidEvent_raisRfidEventWhenDoorIsNOTLocked_testOnMultipleMocs()
         {
-            Assert.Pass();
+            //Arrange
+            chargeControl.IsConnected().Returns(true);
+
+            // Act
+            rfdReader.RFIDDectectedEvent += Raise.EventWith(new RFIDDetectedEventArgs() { Id = "testID" });
+            Assert.Multiple(() =>
+            {
+                chargeControl.Received(1).StartCharge();
+                door.Received(1).LockDoor();
+                logfile.Received(1).DoorLocked("testID");
+                display.Received(1).ChangeText(MessageCode.LadeskabOptaget);
+            });
         }
+
+        [Test]
+        public void HandleRfidEvent_raisRfidEventWhenDoorIsLockedAndRFIDIsTheSame_testOnMultipleMocs()
+        {
+
+            //Arrange
+            chargeControl.IsConnected().Returns(true);
+            rfdReader.RFIDDectectedEvent += Raise.EventWith(new RFIDDetectedEventArgs() {Id = "testID"}); //Sørger for at testID fra før er det samme
+
+            // Act
+            rfdReader.RFIDDectectedEvent += Raise.EventWith(new RFIDDetectedEventArgs() { Id = "testID" });
+            Assert.Multiple(() =>
+            {
+                chargeControl.Received(1).StopCharge();
+                door.Received(1).UnlockDoor();
+                logfile.Received(1).DoorUnlocked("testID");
+                display.Received(1).ChangeText(MessageCode.FjernTelefon);
+            });
+        }
+
+        [Test]
+        public void HandleRfidEvent_raisRfidEventWhenDoorIsLockedAndRFIDIsNOTTheSame_testOnMultipleMocs()
+        {
+            //Arrange
+            chargeControl.IsConnected().Returns(true);
+            rfdReader.RFIDDectectedEvent += Raise.EventWith(new RFIDDetectedEventArgs() { Id = "testIDwrong" }); //Sørger for at testID fra før er det samme
+
+            // Act
+            rfdReader.RFIDDectectedEvent += Raise.EventWith(new RFIDDetectedEventArgs() { Id = "testID" });
+            display.Received(1).ChangeText(MessageCode.RFIDFejl);
+            }
+
     }
 }
