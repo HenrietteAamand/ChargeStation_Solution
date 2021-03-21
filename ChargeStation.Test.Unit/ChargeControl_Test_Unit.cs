@@ -58,14 +58,31 @@ namespace ChargeStation.Test.Unit
         }
 
         [Test]
-        public void IsConnectet_Received_ExpectOnetime()
+        public void IsConnectetUpOnStartCharge_Received_ExpectTrue()
         {
-            uut.StopCharge();
-            usbCharger.Received(1).StopCharge();
-            usbCharger.DidNotReceive().StartCharge();
+            usbCharger.Connected.Returns(true);
+            uut = new ChargeControl(usbCharger);
+
+            uut.StartCharge();
+            usbCharger.Received(1).StartCharge();
+
+            Assert.That(uut.IsConnected, Is.EqualTo(true));
+
+        }
+        [Test]
+        public void IsConnectetUpOnStartCharge_Received_ExpectFalse()
+        {
+            usbCharger.Connected.Returns(false);
+            uut = new ChargeControl(usbCharger);
+
+            uut.StartCharge();
+            usbCharger.Received(1).StartCharge();
+
+            Assert.That(uut.IsConnected, Is.EqualTo(false));
 
         }
 
+      
 
 
 
