@@ -52,6 +52,8 @@ namespace ChargeStation.Classlibrary
                 case >=Kortslutning:
                     iDisplay.ChangeText(MessageCode.Kortslutning);
                     break;
+                default:
+                    break;
             }
         }
 
