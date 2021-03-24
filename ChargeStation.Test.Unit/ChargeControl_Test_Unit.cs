@@ -11,7 +11,6 @@ namespace ChargeStation.Test.Unit
 
         private IUSBCharger usbCharger;
         private IDisplay iDisplay;
-        private CurrentEventArgs currentEventArgs;
         //private readonly TestUSBCharcgerSource testUsbCharger;
 
         [SetUp]
@@ -121,7 +120,14 @@ namespace ChargeStation.Test.Unit
 
         }
 
+        [Test]
+        public void CurrentEventNull_RaiseCurrentEvent_SwitchCaseDefault()
+        {
+            uut.CurrentCurrent = null;
 
+            usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() {Current = null}); //Sørger for at testID fra før er det samme
+            iDisplay.Received(0).DidNotReceiveWithAnyArgs();
+        }
 
 
 

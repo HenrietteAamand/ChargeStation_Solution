@@ -106,7 +106,22 @@ namespace ChargeStation.Test.Unit
             Assert.That(receivedEventArgs.Current, Is.EqualTo(0.0));
            
         }
-        
+
+        [Test]
+        public void StartCharge_EventCalled_CorrectNewCurrentCalled()
+        {
+            double lastValue = 1000;
+            uut.CurrentValueEvent += (o, args) => lastValue = (double)args.Current;
+
+            uut.StartCharge();
+            
+            System.Threading.Thread.Sleep(300);
+
+            Assert.That(lastValue, Is.EqualTo(500.0));
+
+
+        }
+
 
 
 
