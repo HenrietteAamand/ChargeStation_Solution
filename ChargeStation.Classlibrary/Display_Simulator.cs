@@ -34,9 +34,19 @@ namespace ChargeStation.Classlibrary
                 case MessageCode.Tilslutningsfejl:
                     Console.WriteLine("Tilslutningsfejl");
                     break;
+                case MessageCode.TelefonFuldtOpladet:
+                    System.Console.WriteLine("Telefonen er fuldt opladet");
+                    break;
+                case MessageCode.LadningIgang:
+                    System.Console.WriteLine("Opladning er igang");
+                    break;
+                case MessageCode.Kortslutning:
+                    System.Console.WriteLine("Systemet er kortsluttet");
+                    break;
                 default:
                     Console.WriteLine("Unknown Error");
                     break;
+
             }
         }
     }
