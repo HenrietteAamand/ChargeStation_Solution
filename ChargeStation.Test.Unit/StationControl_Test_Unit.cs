@@ -34,7 +34,9 @@ namespace ChargeStation.Test.Unit
         [TestCase(false, MessageCode.IndlaesRFID)]
         public void HandleDoorEvent_changeDoorStatus_mockenumIsCorrect(bool stateOfDoor, MessageCode code)
         {
-            door.DoorStatusChangedEvent += Raise.EventWith(new DoorStatusEventArgs {IsOpen = stateOfDoor});
+            door.DoorStatusChangedEvent += Raise.EventWith(new DoorStatusEventArgs { IsOpen = stateOfDoor });
+            
+            //Assert
             display.Received(1).ChangeText(code);
         }
 
@@ -45,7 +47,9 @@ namespace ChargeStation.Test.Unit
             chargeControl.IsConnected().Returns(false);
 
             // Act
-            rfdReader.RFIDDectectedEvent += Raise.EventWith(new RFIDDetectedEventArgs() { Id = "testID"});
+            rfdReader.RFIDDectectedEvent += Raise.EventWith(new RFIDDetectedEventArgs() { Id = "testID" });
+            
+            //Assert
             display.Received(1).ChangeText(MessageCode.Tilslutningsfejl);
         }
 
@@ -57,6 +61,8 @@ namespace ChargeStation.Test.Unit
 
             // Act
             rfdReader.RFIDDectectedEvent += Raise.EventWith(new RFIDDetectedEventArgs() { Id = "testID" });
+
+            //Assert
             Assert.Multiple(() =>
             {
                 chargeControl.Received(1).StartCharge();
@@ -69,13 +75,16 @@ namespace ChargeStation.Test.Unit
         [Test]
         public void HandleRfidEvent_raisRfidEventWhenDoorIsLockedAndRFIDIsTheSame_testOnMultipleMocs()
         {
-
             //Arrange
             chargeControl.IsConnected().Returns(true);
-            rfdReader.RFIDDectectedEvent += Raise.EventWith(new RFIDDetectedEventArgs() {Id = "testID"}); //Sørger for at testID fra før er det samme
+            door.DoorIsLocked.Returns(false);
+            rfdReader.RFIDDectectedEvent += Raise.EventWith(new RFIDDetectedEventArgs() { Id = "testID" }); //Sørger for at testID fra før er det samme
+            door.DoorIsLocked.Returns(true);
 
             // Act
             rfdReader.RFIDDectectedEvent += Raise.EventWith(new RFIDDetectedEventArgs() { Id = "testID" });
+
+            //Assert
             Assert.Multiple(() =>
             {
                 chargeControl.Received(1).StopCharge();
@@ -90,12 +99,16 @@ namespace ChargeStation.Test.Unit
         {
             //Arrange
             chargeControl.IsConnected().Returns(true);
+            door.DoorIsLocked.Returns(false);
             rfdReader.RFIDDectectedEvent += Raise.EventWith(new RFIDDetectedEventArgs() { Id = "testIDwrong" }); //Sørger for at testID fra før er det samme
+            door.DoorIsLocked.Returns(true);
 
             // Act
             rfdReader.RFIDDectectedEvent += Raise.EventWith(new RFIDDetectedEventArgs() { Id = "testID" });
+            
+            //Assert
             display.Received(1).ChangeText(MessageCode.RFIDFejl);
-            }
+        }
 
     }
 }

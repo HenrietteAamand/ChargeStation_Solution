@@ -87,27 +87,28 @@ namespace ChargeStation.Classlibrary
 
         public void SimulateOpeningTry()
         {
-            if (DoorIsLocked)
+            if (!DoorIsLocked)
             {
-                throw new ArgumentException("Døren var låst da du åbnede..");
+                DoorChangeStatus(true);
             }
             else
             {
-                DoorChangeStatus(true);
-
+                System.Diagnostics.Debug.WriteLine("Døren var låst da du prøvede at åbne..");
+                //throw new ArgumentException("Døren var låst da du åbnede..");
             }
         }
 
 
         public void SimulateClosingTry()
         {
-            if (DoorIsLocked)
+            if (!DoorIsLocked)
             {
-                throw new ArgumentException("Døren var låst da du lukkede..");
+                DoorChangeStatus(false);
             }
             else
             {
-                DoorChangeStatus(false);
+                System.Diagnostics.Debug.WriteLine("Døren var låst da du prøvede at lukke..");
+                //throw new ArgumentException("Døren var låst da du lukkede..");
             }
         }
         
