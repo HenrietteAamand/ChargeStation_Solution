@@ -95,7 +95,7 @@ namespace ChargeStation.Test.Unit
             // Act
             rfdReader.RFIDDectectedEvent += Raise.EventWith(new RFIDDetectedEventArgs() { Id = "testID" });
             display.Received(1).ChangeText(MessageCode.RFIDFejl);
-            }
+        }
 
     }
 }

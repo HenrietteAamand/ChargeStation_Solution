@@ -8,18 +8,25 @@ namespace ChargeStation.Classlibrary
     {
 
         private IUSBCharger iUsbCharger;
-        private IDisplay iDisplay = new IDisplay();
+        private IDisplay iDisplay;
 
         public double CurrentCurrent { get; set; }
         private const int ZeroCurrent = 0;
         private const int TelefonOpladet = 5;
         private const int Ladestrøm = 500;
         private const int Kortslutning =501;
+        
 
+        public ChargeControl(IUSBCharger iUsbCharger, IDisplay display)
+        {
+            this.iUsbCharger = iUsbCharger;
+            iDisplay = display;
+            iUsbCharger.CurrentValueEvent += HandleCurrentChangeEvent;
+        }
         public ChargeControl(IUSBCharger iUsbCharger)
         {
             this.iUsbCharger = iUsbCharger;
-            
+           
             iUsbCharger.CurrentValueEvent += HandleCurrentChangeEvent;
         }
 
@@ -37,13 +44,13 @@ namespace ChargeStation.Classlibrary
                 case ZeroCurrent:
                     break;
                 case <= TelefonOpladet:
-                    iDisplay.MessageCode.Text(7);
+                    iDisplay.ChangeText(MessageCode.TelefonFuldtOpladet);
                     break;
                 case <=Ladestrøm:
-                    iDisplay.MessageCode.Text(8);
+                    iDisplay.ChangeText(MessageCode.LadningIgang);
                     break;
                 case >=Kortslutning:
-                    iDisplay.MessageCode.Text(9);
+                    iDisplay.ChangeText(MessageCode.Kortslutning);
                     break;
             }
         }
