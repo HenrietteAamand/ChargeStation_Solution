@@ -8,13 +8,18 @@ namespace ChargeStation.Classlibrary
     {
 
         private IUSBCharger iUsbCharger;
-       
+        private IDisplay iDisplay = new IDisplay();
 
         public double CurrentCurrent { get; set; }
+        private const int ZeroCurrent = 0;
+        private const int TelefonOpladet = 5;
+        private const int Ladestrøm = 500;
+        private const int Kortslutning =501;
 
         public ChargeControl(IUSBCharger iUsbCharger)
         {
             this.iUsbCharger = iUsbCharger;
+            
             iUsbCharger.CurrentValueEvent += HandleCurrentChangeEvent;
         }
 
@@ -22,20 +27,26 @@ namespace ChargeStation.Classlibrary
         {
             CurrentCurrent = e.Current;
             // Handle current data
-            //HandleCurretDataEvent();
+            HandleCurretDataEvent();
         }
 
-        //private void HandleCurretDataEvent()
-        //{
-        //    if (true)
-        //    {
-        //        //TODO do stuff
-        //    }
-        //    else
-        //    {
-        //        //TODO do Other cool stuff
-        //    }
-        //}
+        private void HandleCurretDataEvent()
+        {
+            switch (CurrentCurrent)
+            {
+                case ZeroCurrent:
+                    break;
+                case <= TelefonOpladet:
+                    iDisplay.MessageCode.Text(7);
+                    break;
+                case <=Ladestrøm:
+                    iDisplay.MessageCode.Text(8);
+                    break;
+                case >=Kortslutning:
+                    iDisplay.MessageCode.Text(9);
+                    break;
+            }
+        }
 
         public bool IsConnected()
         {
