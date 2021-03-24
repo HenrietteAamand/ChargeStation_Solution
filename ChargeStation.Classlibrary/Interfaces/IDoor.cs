@@ -9,5 +9,6 @@ namespace ChargeStation.Classlibrary
         public event EventHandler<DoorStatusEventArgs> DoorStatusChangedEvent;
         public void LockDoor();
         public void UnlockDoor();
+        public bool DoorIsLocked { get;}
     }
 }

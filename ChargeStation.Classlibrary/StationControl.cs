@@ -13,7 +13,6 @@ namespace ChargeStation.Classlibrary
         private readonly IDisplay _display;
         private readonly ILogfile _logfile;
         private string rfidID;
-        private bool doorIsLocked;
 
         
 
@@ -27,7 +26,6 @@ namespace ChargeStation.Classlibrary
             _rfdReader.RFIDDectectedEvent += HandleRfidEvent;
             _display = display;
             _logfile = logfile;
-            doorIsLocked = false;
         }
 
         private void HandleDoorEvent(object sender, DoorStatusEventArgs doorStatus)
@@ -46,7 +44,7 @@ namespace ChargeStation.Classlibrary
 
         private void HandleRfidEvent(object sender, RFIDDetectedEventArgs rfidReader)
         {
-            if (doorIsLocked == false)  //Hvis døren er ulåst, og der registreres et RfidEvent, så skal vi en ting
+            if (_door.DoorIsLocked == false)  //Hvis døren er ulåst, og der registreres et RfidEvent, så skal vi en ting
             {
                 switch (_chargeControl.IsConnected())
                 {
@@ -55,7 +53,6 @@ namespace ChargeStation.Classlibrary
                         rfidID = rfidReader.Id;
                         _chargeControl.StartCharge();
                         _door.LockDoor();
-                        doorIsLocked = true;
                         _logfile.DoorLocked(rfidID);
                         _display.ChangeText(MessageCode.LadeskabOptaget);
                         break;
@@ -74,7 +71,6 @@ namespace ChargeStation.Classlibrary
                         _door.UnlockDoor();                             // Lås døren op
                         _display.ChangeText(MessageCode.FjernTelefon);  // Udskriv "Fjern telefon" på display
                         rfidID = "";
-                        doorIsLocked = false;
                         _logfile.DoorUnlocked(rfidReader.Id);           // Gem i lockfilen, at døren er blevet låst op
 
                         break;
