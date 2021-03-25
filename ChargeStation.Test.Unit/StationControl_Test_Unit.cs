@@ -1,8 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using NUnit.Framework;
 using NSubstitute;
 using ChargeStation.Classlibrary;
 using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
+using NSubstitute.Core.Arguments;
 
 namespace ChargeStation.Test.Unit
 {
@@ -26,20 +28,30 @@ namespace ChargeStation.Test.Unit
             uut = new StationControl(door, chargeControl, rfdReader, display, logfile);
         }
 
-        // Zero: Da der ikke er nogen state i klassen, kan denne ikke testes
-        // One: Her testes samtlige metoder, hvor de bliver kaldt én gang
+        // Zero: Det testes, at der ikke er kaldt nogle metoder i klassen. Dette er delvist en whiteboxtest,
+            // da jeg ved, at alle metoderne bruger Display.Changetext(). Derfor kan jeg tjekke, at der er modtaget 0 kald til denne metode
+        [Test]
+        public void uut_setUpuut_noCallsRecievInDisplay()
+        {
+            display.DidNotReceive().ChangeText(Arg.Any<MessageCode>());
+        }
 
-        // Dette er en mock test. Tester på Display
+
+        // One: Her testes samtlige metoder, hvor de bliver kaldt én gang
+        // Dette er en mock test. Tester på Display, og at når døren åbnes/lukkes så udskrives det rigtige på skærmen
         [TestCase(true, MessageCode.TilslutTelefon)]
         [TestCase(false, MessageCode.IndlaesRFID)]
         public void HandleDoorEvent_changeDoorStatus_mockenumIsCorrect(bool stateOfDoor, MessageCode code)
         {
+            //Arrange 
+            //Act
             door.DoorStatusChangedEvent += Raise.EventWith(new DoorStatusEventArgs { IsOpen = stateOfDoor });
             
             //Assert
             display.Received(1).ChangeText(code);
         }
 
+        // Tester at vi får vist en tilslutningsfejl, hvis ikke telefonen er connectet
         [Test]
         public void HandleRfidEvent_raisRfidEventWhenDoorIsNOTLockedAndCargerIsConnected_testOnMultipleMocs()
         {
@@ -53,6 +65,7 @@ namespace ChargeStation.Test.Unit
             display.Received(1).ChangeText(MessageCode.Tilslutningsfejl);
         }
 
+        //Tester at alle de korrekte ting sker, når der holdes et RFID tag foran døren når en ladning påbegyndes
         [Test]
         public void HandleRfidEvent_raisRfidEventWhenDoorIsNOTLocked_testOnMultipleMocs()
         {
@@ -72,6 +85,7 @@ namespace ChargeStation.Test.Unit
             });
         }
 
+        //Tester at alle de korrekte ting sker, når der holdes et RFID tag foran døren når en ladning afsluttes
         [Test]
         public void HandleRfidEvent_raisRfidEventWhenDoorIsLockedAndRFIDIsTheSame_testOnMultipleMocs()
         {
@@ -94,6 +108,8 @@ namespace ChargeStation.Test.Unit
             });
         }
 
+        //Tester at alle de korekte ting sker, når der holdes et RFID tag foran døren
+        //når en ladning forsøges at afsluttes, men der briges det forkerte RFID tag
         [Test]
         public void HandleRfidEvent_raisRfidEventWhenDoorIsLockedAndRFIDIsNOTTheSame_testOnMultipleMocs()
         {
