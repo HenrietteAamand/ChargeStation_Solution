@@ -1,6 +1,8 @@
 using System.Diagnostics;
+using System.Threading;
 using ChargeStation.Classlibrary;
 using NSubstitute;
+using NSubstitute.Core;
 using NUnit.Framework;
 
 namespace ChargeStation.Test.Unit
@@ -29,12 +31,31 @@ namespace ChargeStation.Test.Unit
         [TestCase(500)]
         [TestCase(700)]
         [TestCase(1000)]
-        public void CurrentChanged_DifferentArguments_CurrentIsCorrect_ExpectEvent(int newCurrent)
+        public void CurrentEventChanged_DifferentArguments_CurrentIsCorrect_ExpectEvent(int newCurrent)
         {
             usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = newCurrent });
             Assert.That(uut.CurrentCurrent, Is.EqualTo(newCurrent));
         }
 
+
+       
+        [TestCase(-10,1)]
+        [TestCase(1,2)]
+        [TestCase(500,2)]
+        [TestCase(700,2)]
+        [TestCase(1000,2)]
+        public void CurrentEventChanged_DifferentArgumentsTwoTimes_CurrentIsCorrect_ExpectEvent(int newCurrent, int CallsReceived)
+        {
+            usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = 400 });
+            Thread.Sleep(500);
+            usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = newCurrent });
+
+            iDisplay.Received(CallsReceived).ReceivedCalls();
+          
+            Assert.That(uut.CurrentCurrent, Is.EqualTo(newCurrent));
+
+
+        }
         #endregion
         [Test]
         public void StartCharge_Received_ExpectOnetime()
@@ -43,12 +64,43 @@ namespace ChargeStation.Test.Unit
             usbCharger.Received(1).StartCharge();
             usbCharger.DidNotReceive().StopCharge();
         }
+        [Test]
+        public void StartCharge_ReceivedZero_ExpectOnetime()
+        {
+            usbCharger.Received(0).StartCharge();
+            usbCharger.DidNotReceive().StopCharge();
+        }
+        [Test]
+        public void StartCharge_Received100000Times_ExpectOnetime()
+        {
+            int theBigNumberRule = 10000;
+            for (int i = 0; i < theBigNumberRule; i++)
+            {
+                uut.StartCharge();
+            }
+            usbCharger.Received(theBigNumberRule).StartCharge();
+            usbCharger.DidNotReceive().StopCharge();
+        }
 
+        [Test]
+        public void StopCharge_ReceivedZeroTimes_ExpectOnetime()
+        {
+            usbCharger.Received(0).StopCharge();
+            usbCharger.DidNotReceive().StartCharge();
+        }
         [Test]
         public void StopCharge_Received_ExpectOnetime()
         {
             uut.StopCharge();
             usbCharger.Received(1).StopCharge();
+            usbCharger.DidNotReceive().StartCharge();
+        }
+        [Test]
+        public void StopCharge_ReceivedTwice_ExpectOnetime()
+        {
+            uut.StopCharge();
+            uut.StopCharge();
+            usbCharger.Received(2).StopCharge();
             usbCharger.DidNotReceive().StartCharge();
         }
 
@@ -60,6 +112,7 @@ namespace ChargeStation.Test.Unit
             usbCharger.Received(1).StartCharge();
 
             Assert.That(uut.IsConnected, Is.EqualTo(true));
+
         }
 
         [Test]
@@ -132,7 +185,7 @@ namespace ChargeStation.Test.Unit
 
             usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = ladestrøm }); 
             iDisplay.Received(1).ChangeText(MessageCode.Kortslutning);
-
+        
         }
 
         [TestCase(-5)]
@@ -152,7 +205,8 @@ namespace ChargeStation.Test.Unit
             uut.CurrentCurrent = null;
 
             usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() {Current = null});
-            iDisplay.Received(0).DidNotReceiveWithAnyArgs();
+            iDisplay.DidNotReceive().ChangeText(Arg.Any<MessageCode>());
+
         }
 
 

@@ -35,7 +35,7 @@ namespace ChargeStation.Classlibrary
         {
             switch (CurrentCurrent)
             {
-                case <=ZeroCurrent:
+                case <= ZeroCurrent:
                     break;
                 case <= TelefonOpladet:
                     iDisplay.ChangeText(MessageCode.TelefonFuldtOpladet);
