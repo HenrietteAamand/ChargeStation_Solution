@@ -22,7 +22,7 @@ namespace ChargeStation_Application
             do
             {
                 string input;
-                System.Console.WriteLine("Indtast E(Exit), O(OpenDoor), C(CloseDoor), R(Læs RFID), P(Plug), U(UnPlug): ");
+                System.Console.WriteLine("Indtast E(Exit), O(OpenDoor), C(CloseDoor), R(Læs RFID), P(Plug), U(UnPlug) , K(OverLoad) , L(NotOverLoad): ");
                 input = Console.ReadLine().ToUpper();
                 if (string.IsNullOrEmpty(input)) continue;
 
@@ -51,6 +51,12 @@ namespace ChargeStation_Application
                         break;
                     case 'U':
                         uSBSimulator.SimulateConnected(false);
+                        break;
+                    case 'K':
+                        uSBSimulator.SimulateOverload(true);
+                        break;
+                    case 'L':
+                        uSBSimulator.SimulateOverload(false);
                         break;
 
                     default:
