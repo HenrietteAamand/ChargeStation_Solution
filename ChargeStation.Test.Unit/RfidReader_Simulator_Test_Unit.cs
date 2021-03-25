@@ -30,7 +30,6 @@ namespace ChargeStation.Test.Unit
         public void RfidDetected_Zero_NoMethodCall_ExpextEventIsNotFired()
         {
             //Arrange
-            //Setup
 
             //Act
             // No act for Zero test
@@ -44,7 +43,6 @@ namespace ChargeStation.Test.Unit
         public void RfidDetected_One_CallMethod_ExpextRfidIsRfidAndEventIsFired(string Rfid)
         {
             //Arrange
-            //Setup
 
             //Act
             uut.RfidDetected(Rfid);
@@ -57,25 +55,42 @@ namespace ChargeStation.Test.Unit
             });
         }
 
-        //Many
+        //Many - tester med store/små bogstaver, tal og tom teststreng
         [TestCase("RfidTest")]
-        [TestCase("Rfid")]
-        [TestCase("TestId")]
+        [TestCase("")]
+        [TestCase("test id")]
         [TestCase("1234567890")]
-        [TestCase("1")]
+        [TestCase("ID")]
         public void RfidDetected_Many_CallMethod_ExpextRfidIsRfidAndEventIsFired(string Rfid)
         {
             //Arrange
-            //Setup
 
             //Act
-            uut.RfidDetected(Rfid);
             uut.RfidDetected(Rfid);
 
             //Assert
             Assert.Multiple(() =>
             {
                 Assert.That(receivedEventArgs.Id, Is.EqualTo(Rfid));
+                Assert.That(receivedEventArgs, Is.Not.Null);
+            });
+        }
+
+        //Many - kalder metoden flere gange med forskellig parameter, tester at ID gemmes ved det sidste kald
+        [Test]
+        public void RfidDetected_Many_CallMethodTwoTimes_ExpextRfidIsRfidAndEventIsFired()
+        {
+            //Arrange
+
+            //Act
+            uut.RfidDetected("RFID");
+            uut.RfidDetected("ID");
+            uut.RfidDetected("testRfid");
+
+            //Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(receivedEventArgs.Id, Is.EqualTo("testRfid"));
                 Assert.That(receivedEventArgs, Is.Not.Null);
             });
         }
