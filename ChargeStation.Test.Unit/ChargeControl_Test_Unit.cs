@@ -11,7 +11,6 @@ namespace ChargeStation.Test.Unit
 
         private IUSBCharger usbCharger;
         private IDisplay iDisplay;
-        private CurrentEventArgs currentEventArgs;
         //private readonly TestUSBCharcgerSource testUsbCharger;
 
         [SetUp]
@@ -36,8 +35,6 @@ namespace ChargeStation.Test.Unit
             Assert.That(uut.CurrentCurrent, Is.EqualTo(newCurrent));
 
         }
-
-        //TODO Her skal være noget med HandleCurretDataEvent og hvordan den bearbejder de forskellige CUrrent ændringer som controller klasse
 
         #endregion
         [Test]
@@ -90,7 +87,7 @@ namespace ChargeStation.Test.Unit
         public void OpladningFærdig_RaiseCurrentEvent_DisplayReceiveCorrectMessage(int ladestrøm)
         {
 
-            usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = ladestrøm }); //Sørger for at testID fra før er det samme
+            usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = ladestrøm }); 
             iDisplay.Received(1).ChangeText(MessageCode.TelefonFuldtOpladet);
 
         }
@@ -98,14 +95,14 @@ namespace ChargeStation.Test.Unit
         [TestCase(500)]
         public void OpladningIgang_RaiseCurrentEvent_DisplayReceiveCorrectMessage(int ladestrøm)
         {
-            usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = ladestrøm }); //Sørger for at testID fra før er det samme
+            usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = ladestrøm }); 
             iDisplay.Received(1).ChangeText(MessageCode.LadningIgang);
 
         }
         [TestCase(0)]
         public void ZerroCurrent_RaiseCurrentEvent_DisplayReceiveCorrectMessage(int ladestrøm)
         {
-            usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = ladestrøm }); //Sørger for at testID fra før er det samme
+            usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = ladestrøm }); 
             iDisplay.Received(0).DidNotReceiveWithAnyArgs();
         }
         [TestCase(501)]
@@ -116,12 +113,19 @@ namespace ChargeStation.Test.Unit
         public void OpladningKortsluttet_RaiseCurrentEvent_DisplayReceiveCorrectMessage(int ladestrøm)
         {
 
-            usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = ladestrøm }); //Sørger for at testID fra før er det samme
+            usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = ladestrøm }); 
             iDisplay.Received(1).ChangeText(MessageCode.Kortslutning);
 
         }
 
+        [Test]
+        public void CurrentEventNull_RaiseCurrentEvent_SwitchCaseDefault()
+        {
+            uut.CurrentCurrent = null;
 
+            usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() {Current = null});
+            iDisplay.Received(0).DidNotReceiveWithAnyArgs();
+        }
 
 
 

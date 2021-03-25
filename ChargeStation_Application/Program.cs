@@ -8,7 +8,7 @@ namespace ChargeStation_Application
         static void Main(string[] args)
         {
             Door_Simulator door = new Door_Simulator();
-            IChargeControl chargeControl = new ChargeControl(new UsbChargerSimulator());
+            IChargeControl chargeControl = new ChargeControl(new UsbChargerSimulator(), new Display_Simulator());
             IDisplay display = new Display_Simulator();
             ILogfile logfile = new Logfile(new FileWriter(), new TimeProvider());
             IRdfReader rfidReader = new RfidReader_simulator();

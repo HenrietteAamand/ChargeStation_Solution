@@ -55,7 +55,7 @@ namespace ChargeStation.Test.Unit
         public void Started_WaitSomeTime_ReceivedChangedValue()
         {
             double lastValue = 1000;
-            _uut.CurrentValueEvent += (o, args) => lastValue = args.Current;
+            _uut.CurrentValueEvent += (o, args) => lastValue = (double) args.Current;
 
             _uut.StartCharge();
 
@@ -78,7 +78,7 @@ namespace ChargeStation.Test.Unit
         public void Started_WaitSomeTime_PropertyMatchesReceivedValue()
         {
             double lastValue = 1000;
-            _uut.CurrentValueEvent += (o, args) => lastValue = args.Current;
+            _uut.CurrentValueEvent += (o, args) => lastValue = (double) args.Current;
 
             _uut.StartCharge();
 
@@ -96,7 +96,7 @@ namespace ChargeStation.Test.Unit
 
             _uut.CurrentValueEvent += (o, args) =>
             {
-                lastValue = args.Current;
+                lastValue = (double) args.Current;
                 pause.Set();
             };
 
@@ -123,7 +123,7 @@ namespace ChargeStation.Test.Unit
 
             _uut.CurrentValueEvent += (o, args) =>
             {
-                lastValue = args.Current;
+                lastValue = (double) args.Current;
                 pause.Set();
             };
 
@@ -150,7 +150,7 @@ namespace ChargeStation.Test.Unit
 
             _uut.CurrentValueEvent += (o, args) =>
             {
-                lastValue = args.Current;
+                lastValue = (double) args.Current;
             };
 
             // First value should be high
@@ -171,7 +171,7 @@ namespace ChargeStation.Test.Unit
 
             _uut.CurrentValueEvent += (o, args) =>
             {
-                lastValue = args.Current;
+                lastValue = (double) args.Current;
             };
 
             // First value should be high
@@ -189,7 +189,7 @@ namespace ChargeStation.Test.Unit
         public void StopCharge_IsCharging_ReceivesZeroValue()
         {
             double lastValue = 1000;
-            _uut.CurrentValueEvent += (o, args) => lastValue = args.Current;
+            _uut.CurrentValueEvent += (o, args) => lastValue = (double) args.Current;
 
             _uut.StartCharge();
 
@@ -216,7 +216,7 @@ namespace ChargeStation.Test.Unit
         public void StopCharge_IsCharging_ReceivesNoMoreValues()
         {
             double lastValue = 1000;
-            _uut.CurrentValueEvent += (o, args) => lastValue = args.Current;
+            _uut.CurrentValueEvent += (o, args) => lastValue = (double) args.Current;
 
             _uut.StartCharge();
 
