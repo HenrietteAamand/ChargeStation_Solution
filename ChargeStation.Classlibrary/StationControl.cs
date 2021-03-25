@@ -40,7 +40,7 @@ namespace ChargeStation.Classlibrary
 
         private void HandleRfidEvent(object sender, RFIDDetectedEventArgs rfidReader)
         {
-            if (_door.DoorIsLocked == false)  //Hvis døren er ulåst, og der registreres et RfidEvent, så skal vi en ting
+            if (_door.DoorIsLocked == false && _door.DoorIsOpen == false)  //Hvis døren er ulåst, og der registreres et RfidEvent, så skal vi en ting
             {
                 switch (_chargeControl.IsConnected())
                 {
@@ -57,7 +57,7 @@ namespace ChargeStation.Classlibrary
                         break;
                 }
             }
-            else
+            else if (_door.DoorIsLocked)
             {
                 switch (CheckId(rfidReader.Id))
                 {
