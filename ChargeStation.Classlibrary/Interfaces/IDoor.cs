@@ -10,5 +10,6 @@ namespace ChargeStation.Classlibrary
         public void LockDoor();
         public void UnlockDoor();
         public bool DoorIsLocked { get;}
+        public bool DoorIsOpen { get; }
     }
 }
