@@ -4,7 +4,6 @@ using System.Text;
 
 namespace ChargeStation.Classlibrary
 {
-    // Henriette
     public class StationControl
     {
         private readonly IDoor _door;
@@ -14,9 +13,6 @@ namespace ChargeStation.Classlibrary
         private readonly ILogfile _logfile;
         private string rfidID;
 
-        
-
-        //Dette er controllerklassen. 
         public StationControl(IDoor door, IChargeControl chargeControl, IRdfReader rfdReader, IDisplay display, ILogfile logfile)
         {
             _door = door;
@@ -48,7 +44,6 @@ namespace ChargeStation.Classlibrary
             {
                 switch (_chargeControl.IsConnected())
                 {
-                    //under test: Assert.Multible og test alt dens funktionalitet
                     case true:
                         rfidID = rfidReader.Id;
                         _chargeControl.StartCharge();
@@ -82,7 +77,7 @@ namespace ChargeStation.Classlibrary
             }
         }
 
-        public bool CheckId(string id)
+        private bool CheckId(string id)
         {
             if (rfidID == id)
             {
