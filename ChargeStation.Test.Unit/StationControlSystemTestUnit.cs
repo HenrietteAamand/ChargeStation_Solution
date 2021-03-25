@@ -31,8 +31,7 @@ namespace ChargeStation.Test.Unit
         [Test]
         public void TotalSystemTest_FollowSekvensDiagram10Times_Correct()
         {
-            for (int i = 0; i < 10; i++)
-            {
+            
                 logfile = Substitute.For<ILogfile>();
                 door = Substitute.For<IDoor>();
                 display = Substitute.For<IDisplay>();
@@ -105,7 +104,7 @@ namespace ChargeStation.Test.Unit
 
                 #endregion
 
-            }
+            
 
 
 

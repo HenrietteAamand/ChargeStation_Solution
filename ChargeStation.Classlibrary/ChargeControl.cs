@@ -14,8 +14,8 @@ namespace ChargeStation.Classlibrary
         private const int ZeroCurrent = 0;
         private const int TelefonOpladet = 5;
         private const int Ladestrøm = 500;
-        private const int Kortslutning =501;
-        
+        private const int Kortslutning = 501;
+        private MessageCode IsChargingMessage;
 
         public ChargeControl(IUSBCharger iUsbCharger, IDisplay display)
         {
@@ -26,28 +26,34 @@ namespace ChargeStation.Classlibrary
 
         private void HandleCurrentChangeEvent(object sender, CurrentEventArgs e)
         {
-            if (CurrentCurrent != e.Current)
-            {
-                CurrentCurrent = e.Current;
-                HandleCurretDataEvent();
-            }
-        }
+            CurrentCurrent = e.Current;
+            HandleCurretDataEvent();
 
+        }
         private void HandleCurretDataEvent()
         {
-            
+
             switch (CurrentCurrent)
             {
                 case <= ZeroCurrent:
                     break;
                 case <= TelefonOpladet:
-                    iDisplay.ChangeText(MessageCode.TelefonFuldtOpladet);
+                    if (IsChargingMessage != MessageCode.TelefonFuldtOpladet)
+                    {
+                        iDisplay.ChangeText(IsChargingMessage = MessageCode.TelefonFuldtOpladet);
+                    }
                     break;
-                case <=Ladestrøm:
-                    iDisplay.ChangeText(MessageCode.LadningIgang);
+                case <= Ladestrøm:
+                    if (IsChargingMessage != MessageCode.LadningIgang)
+                    {
+                        iDisplay.ChangeText(IsChargingMessage = MessageCode.LadningIgang);
+                    }
                     break;
-                case >=Kortslutning:
-                    iDisplay.ChangeText(MessageCode.Kortslutning);
+                case >= Kortslutning:
+                    if (IsChargingMessage != MessageCode.Kortslutning)
+                    {
+                        iDisplay.ChangeText(IsChargingMessage = MessageCode.Kortslutning);
+                    }
                     break;
                 default:
                     break;
