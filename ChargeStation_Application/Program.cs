@@ -8,7 +8,8 @@ namespace ChargeStation_Application
         static void Main(string[] args)
         {
             Door_Simulator door = new Door_Simulator();
-            IChargeControl chargeControl = new ChargeControl(new UsbChargerSimulator(), new Display_Simulator());
+            UsbChargerSimulator uSBSimulator = new UsbChargerSimulator();
+            IChargeControl chargeControl = new ChargeControl(uSBSimulator, new Display_Simulator());
             IDisplay display = new Display_Simulator();
             ILogfile logfile = new Logfile(new FileWriter(), new TimeProvider());
             IRdfReader rfidReader = new RfidReader_simulator();
@@ -21,7 +22,7 @@ namespace ChargeStation_Application
             do
             {
                 string input;
-                System.Console.WriteLine("Indtast E, O, C, R: ");
+                System.Console.WriteLine("Indtast E(Exit), O(OpenDoor), C(CloseDoor), R(Læs RFID), P(Plug), U(UnPlug): ");
                 input = Console.ReadLine().ToUpper();
                 if (string.IsNullOrEmpty(input)) continue;
 
@@ -44,6 +45,12 @@ namespace ChargeStation_Application
                         string idString = System.Console.ReadLine();
 
                         rfidReader.RfidDetected(idString);
+                        break;
+                    case 'P':
+                        uSBSimulator.SimulateConnected(true);
+                        break;
+                    case 'U':
+                        uSBSimulator.SimulateConnected(false);
                         break;
 
                     default:
