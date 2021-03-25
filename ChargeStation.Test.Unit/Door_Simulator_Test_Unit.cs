@@ -191,16 +191,6 @@ namespace ChargeStation.Test.Unit
             });
         }
 
-        [Test]
-        public void SimulateOpeningTry_ExceptionalBehavior_StartesLuckedAndClosed_ExpectException()
-        {
-            //UUT Starter lukket og låst
-            //Arrange
-            uut.LockDoor();
-
-            //Assert
-            Assert.Throws<ArgumentException>(() => uut.SimulateOpeningTry());
-        }
         #endregion
 
         #region SimulateCloseingTry - ZOMxxE
@@ -283,24 +273,6 @@ namespace ChargeStation.Test.Unit
             });
         }
 
-
-        //Dette er en absur test, da dette ikke burde være muligt
-        [Test]
-        public void SimulateCloseingTry_Zero_StartesLuckedAndOpen_ExpectNewException()
-        {
-            //UUT Starter åben og låst,
-            //Arrange
-            uut.LockDoor();
-            uut.DoorIsOpen = true;
-
-            //Act
-            //No Act da det er en Zero Test
-
-            //Assert
-
-            Assert.Throws<ArgumentException>(() => uut.SimulateClosingTry());
-
-        }
 
         #endregion
 

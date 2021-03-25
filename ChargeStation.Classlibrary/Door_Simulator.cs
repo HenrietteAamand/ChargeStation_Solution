@@ -55,6 +55,7 @@ namespace ChargeStation.Classlibrary
         }
         #endregion
 
+        #region Method
 
 
         public void LockDoor()
@@ -85,34 +86,27 @@ namespace ChargeStation.Classlibrary
             }
         }
 
+        #endregion
+
+        #region Simulations Method
+
         public void SimulateOpeningTry()
         {
-            if (DoorIsLocked)
-            {
-                throw new ArgumentException("Døren var låst da du åbnede..");
-            }
-            else
+            if (!DoorIsLocked)
             {
                 DoorChangeStatus(true);
-
             }
         }
 
 
         public void SimulateClosingTry()
         {
-            if (DoorIsLocked)
-            {
-                throw new ArgumentException("Døren var låst da du lukkede..");
-            }
-            else
+            if (!DoorIsLocked)
             {
                 DoorChangeStatus(false);
             }
         }
-        
 
+        #endregion
     }
-
-
 }

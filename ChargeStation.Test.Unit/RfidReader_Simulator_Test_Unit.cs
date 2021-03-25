@@ -25,11 +25,59 @@ namespace ChargeStation.Test.Unit
                 };
         }
 
-        [TestCase("RfidTest")]
-        public void RfidDetected_AddRfid_ExpextRfid(string Rfid)
+        //Zero
+        [Test]
+        public void RfidDetected_Zero_NoMethodCall_ExpextEventIsNotFired()
         {
+            //Arrange
+            //Setup
+
+            //Act
+            // No act for Zero test
+
+            //Assert
+            Assert.That(receivedEventArgs, Is.Null);
+        }
+
+        //One
+        [TestCase("RfidTest")]
+        public void RfidDetected_One_CallMethod_ExpextRfidIsRfidAndEventIsFired(string Rfid)
+        {
+            //Arrange
+            //Setup
+
+            //Act
             uut.RfidDetected(Rfid);
-            Assert.That(receivedEventArgs.Id, Is.EqualTo(Rfid));
+
+            //Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(receivedEventArgs.Id, Is.EqualTo(Rfid));
+                Assert.That(receivedEventArgs, Is.Not.Null);
+            });
+        }
+
+        //Many
+        [TestCase("RfidTest")]
+        [TestCase("Rfid")]
+        [TestCase("TestId")]
+        [TestCase("1234567890")]
+        [TestCase("1")]
+        public void RfidDetected_Many_CallMethod_ExpextRfidIsRfidAndEventIsFired(string Rfid)
+        {
+            //Arrange
+            //Setup
+
+            //Act
+            uut.RfidDetected(Rfid);
+            uut.RfidDetected(Rfid);
+
+            //Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(receivedEventArgs.Id, Is.EqualTo(Rfid));
+                Assert.That(receivedEventArgs, Is.Not.Null);
+            });
         }
     }
 }
