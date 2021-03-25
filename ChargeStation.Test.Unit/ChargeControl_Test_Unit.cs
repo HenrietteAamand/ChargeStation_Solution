@@ -33,7 +33,6 @@ namespace ChargeStation.Test.Unit
         {
             usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = newCurrent });
             Assert.That(uut.CurrentCurrent, Is.EqualTo(newCurrent));
-
         }
 
         #endregion
@@ -43,68 +42,86 @@ namespace ChargeStation.Test.Unit
             uut.StartCharge();
             usbCharger.Received(1).StartCharge();
             usbCharger.DidNotReceive().StopCharge();
-
         }
+
         [Test]
         public void StopCharge_Received_ExpectOnetime()
         {
             uut.StopCharge();
             usbCharger.Received(1).StopCharge();
             usbCharger.DidNotReceive().StartCharge();
-
         }
 
         [Test]
         public void IsConnectetUpOnStartCharge_Received_ExpectTrue()
         {
             usbCharger.Connected.Returns(true);
-
-
             uut.StartCharge();
             usbCharger.Received(1).StartCharge();
 
             Assert.That(uut.IsConnected, Is.EqualTo(true));
-
         }
+
         [Test]
         public void IsConnectetUpOnStartCharge_Received_ExpectFalse()
         {
             usbCharger.Connected.Returns(false);
-
-
             uut.StartCharge();
             usbCharger.Received(1).StartCharge();
-
             Assert.That(uut.IsConnected, Is.EqualTo(false));
 
         }
 
         [TestCase(1)]
-        [TestCase(2)]
         [TestCase(3)]
-        [TestCase(4)]
         [TestCase(5)]
         public void OpladningFærdig_RaiseCurrentEvent_DisplayReceiveCorrectMessage(int ladestrøm)
         {
-
             usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = ladestrøm }); 
             iDisplay.Received(1).ChangeText(MessageCode.TelefonFuldtOpladet);
+        }
+
+        [TestCase(-100)]
+        [TestCase(-1)]
+        [TestCase(6)]
+        [TestCase(100)]
+        public void OpladningFærdigUdenForBoundaries_RaiseCurrentEvent_DisplayDoesNotReceiveTelefonFuldtOpladet(int ladestrøm)
+        {
+            usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = ladestrøm });
+            iDisplay.Received(0).ChangeText(MessageCode.TelefonFuldtOpladet);
 
         }
 
+        [TestCase(6)]
+        [TestCase(150)]
         [TestCase(500)]
         public void OpladningIgang_RaiseCurrentEvent_DisplayReceiveCorrectMessage(int ladestrøm)
         {
             usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = ladestrøm }); 
             iDisplay.Received(1).ChangeText(MessageCode.LadningIgang);
-
         }
+
+        [TestCase(4)]
+        [TestCase(5)]
+        [TestCase(501)]
+        [TestCase(750)]
+        public void OpladningIgangUdenForBoundaries_RaiseCurrentEvent_DisplayReceiveCorrectMessage(int ladestrøm)
+        {
+            usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = ladestrøm });
+            iDisplay.Received(0).ChangeText(MessageCode.LadningIgang);
+        }
+
+
         [TestCase(0)]
+        [TestCase(-1)]
+        [TestCase(-5)]
+        [TestCase(-100)]
         public void ZerroCurrent_RaiseCurrentEvent_DisplayReceiveCorrectMessage(int ladestrøm)
         {
             usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = ladestrøm }); 
             iDisplay.Received(0).DidNotReceiveWithAnyArgs();
         }
+
         [TestCase(501)]
         [TestCase(510)]
         [TestCase(600)]
@@ -115,6 +132,17 @@ namespace ChargeStation.Test.Unit
 
             usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = ladestrøm }); 
             iDisplay.Received(1).ChangeText(MessageCode.Kortslutning);
+
+        }
+
+        [TestCase(-5)]
+        [TestCase(5)]
+        [TestCase(499)]
+        public void OpladningKortsluttetVærdiOutOfBoundaries_RaiseCurrentEvent_DisplayDoesNotRecieveKorslutning(int ladestrøm)
+        {
+
+            usbCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = ladestrøm });
+            iDisplay.Received(0).ChangeText(MessageCode.Kortslutning);
 
         }
 
