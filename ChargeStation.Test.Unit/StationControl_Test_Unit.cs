@@ -26,6 +26,8 @@ namespace ChargeStation.Test.Unit
             chargeControl = Substitute.For<IChargeControl>();
             rfdReader = Substitute.For<IRdfReader>();
             uut = new StationControl(door, chargeControl, rfdReader, display, logfile);
+
+
         }
 
         // Zero: Det testes, at der ikke er kaldt nogle metoder i klassen. Dette er delvist en whiteboxtest,
@@ -125,6 +127,8 @@ namespace ChargeStation.Test.Unit
             //Assert
             display.Received(1).ChangeText(MessageCode.RFIDFejl);
         }
+
+
 
     }
 }

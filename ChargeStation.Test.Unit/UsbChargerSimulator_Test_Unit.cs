@@ -17,6 +17,7 @@ namespace ChargeStation.Test.Unit
         public void Setup()
         {
             _uut = new UsbChargerSimulator();
+            _uut.SimulateConnected(true);
         }
 
         [Test]

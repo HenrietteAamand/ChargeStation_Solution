@@ -26,13 +26,16 @@ namespace ChargeStation.Classlibrary
 
         private void HandleCurrentChangeEvent(object sender, CurrentEventArgs e)
         {
-            CurrentCurrent = e.Current;
-            // Handle current data
-            HandleCurretDataEvent();
+            if (CurrentCurrent != e.Current)
+            {
+                CurrentCurrent = e.Current;
+                HandleCurretDataEvent();
+            }
         }
 
         private void HandleCurretDataEvent()
         {
+            
             switch (CurrentCurrent)
             {
                 case <= ZeroCurrent:
