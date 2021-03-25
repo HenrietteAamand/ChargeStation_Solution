@@ -151,12 +151,6 @@ namespace ChargeStation.Test.Unit
 
             #region Test til at det er kørt 1 lade session
 
-            usbCharger.Received(1).StartCharge();
-            usbCharger.Received(1).StopCharge();
-            door.Received(1).LockDoor();
-            door.Received(1).UnlockDoor();
-            logfile.Received(1).DoorLocked("SpecialHashCode:aokjshfdciuosydcnakjsefdi");
-            logfile.Received(1).DoorUnlocked("SpecialHashCode:aokjshfdciuosydcnakjsefdi");
             display.Received(2).ChangeText(MessageCode.TilslutTelefon);
             display.Received(1).ChangeText(MessageCode.IndlaesRFID);
             display.Received(1).ChangeText(MessageCode.LadeskabOptaget);
@@ -259,12 +253,6 @@ namespace ChargeStation.Test.Unit
 
             #region Test til at det er kørt 2 lade session
 
-            usbCharger.Received(2).StartCharge();
-            usbCharger.Received(2).StopCharge();
-            door.Received(2).LockDoor();
-            door.Received(2).UnlockDoor();
-            logfile.Received(2).DoorLocked("SpecialHashCode:aokjshfdciuosydcnakjsefdi");
-            logfile.Received(2).DoorUnlocked("SpecialHashCode:aokjshfdciuosydcnakjsefdi");
             display.Received(3).ChangeText(MessageCode.TilslutTelefon);
             display.Received(2).ChangeText(MessageCode.IndlaesRFID);
             display.Received(2).ChangeText(MessageCode.LadeskabOptaget);
@@ -350,14 +338,6 @@ namespace ChargeStation.Test.Unit
 
             #endregion
 
-            
-
-            usbCharger.Received(1).StartCharge();
-            usbCharger.Received(1).StopCharge();
-            door.Received(1).LockDoor();
-            door.Received(1).UnlockDoor();
-            logfile.Received(1).DoorLocked("SpecialHashCode:aokjshfdciuosydcnakjsefdi");
-            logfile.Received(1).DoorUnlocked("SpecialHashCode:aokjshfdciuosydcnakjsefdi");
             display.Received(3).ChangeText(MessageCode.TilslutTelefon);
             display.Received(2).ChangeText(MessageCode.IndlaesRFID);
             display.Received(1).ChangeText(MessageCode.LadeskabOptaget);
