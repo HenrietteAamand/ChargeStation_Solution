@@ -55,6 +55,7 @@ namespace ChargeStation.Classlibrary
         }
         #endregion
 
+        #region Method
 
 
         public void LockDoor()
@@ -85,16 +86,15 @@ namespace ChargeStation.Classlibrary
             }
         }
 
+        #endregion
+
+        #region Simulations Method
+
         public void SimulateOpeningTry()
         {
             if (!DoorIsLocked)
             {
                 DoorChangeStatus(true);
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("Døren var låst da du prøvede at åbne..");
-                //throw new ArgumentException("Døren var låst da du åbnede..");
             }
         }
 
@@ -105,15 +105,8 @@ namespace ChargeStation.Classlibrary
             {
                 DoorChangeStatus(false);
             }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("Døren var låst da du prøvede at lukke..");
-                //throw new ArgumentException("Døren var låst da du lukkede..");
-            }
         }
-        
 
+        #endregion
     }
-
-
 }
